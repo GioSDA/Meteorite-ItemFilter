@@ -1,0 +1,7 @@
+name: Filter
+version: '${project.version}'
+main: com.meteoritegames.meteoriteitemfilter.Main
+api-version: 1.8
+authors: [ GioSDA ]
+description: MeteoritePVP Inventory Filter Plugin
+depend: [MeteoriteAPI]
