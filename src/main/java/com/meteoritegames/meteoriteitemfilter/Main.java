@@ -4,20 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meteoritegames.meteoriteitemfilter.commands.ItemFilterCommand;
 import com.meteoritegames.meteoriteitemfilter.listeners.ItemPickupListener;
+import com.meteoritegames.meteoriteitemfilter.objects.Category;
 import com.meteoritegames.meteoriteitemfilter.objects.User;
 import com.meteoritepvp.api.MeteoritePlugin;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Main extends MeteoritePlugin {
 	private static Set<User> users;
 	public HashMap<String, String> text = new HashMap<>();
+	public Set<Category> categories = new HashSet<>();
 
 	@Override
 	protected void onInit() {
@@ -27,11 +27,12 @@ public class Main extends MeteoritePlugin {
 		try {
 			loadUsers("userData.json");
 		} catch (Exception e) {
-			printError("There was an error loading user data! Plugin: ItemFilter");
+			printError("There was an error loading user data!");
 			e.printStackTrace();
 		}
 
 		initText();
+		initCategories();
 		registerCommandObject(new ItemFilterCommand(this));
 
 		registerEventListener(new ItemPickupListener(this));
@@ -42,8 +43,29 @@ public class Main extends MeteoritePlugin {
 		try {
 			saveUsers("userData.json");
 		} catch (IOException e) {
-			printError("There was an error loading user data! Plugin: ItemFilter");
+			printError("There was an error loading user data!");
 			e.printStackTrace();
+		}
+	}
+
+	private void initCategories() {
+		categories.clear();
+
+		for (String category : getConfig().getConfigurationSection("categoriesGUI.categories").getKeys(false)) {
+			String current = "categoriesGUI.categories." + category + ".";
+			if (!getConfig().getBoolean(current + "enabled")) continue;
+
+			int size = getConfig().getInt(current + "size");
+			Material material = Material.valueOf(getConfig().getString(current + "material"));
+			String name = getConfig().getString(current + "name");
+			int slot = getConfig().getInt(current + "slot");
+			String title = getConfig().getString(current + "title");
+			ArrayList<Material> items = new ArrayList<>();
+			for (String item : (List<String>) getConfig().getList(current + "items")) {
+				items.add(Material.valueOf(item));
+			}
+
+			categories.add(new Category(size,material,name,slot,title,items));
 		}
 	}
 

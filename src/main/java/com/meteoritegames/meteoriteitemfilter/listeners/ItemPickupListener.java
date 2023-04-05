@@ -20,12 +20,13 @@ public class ItemPickupListener implements Listener {
 	public void onPlayerPickupItem(PlayerPickupItemEvent e) {
 		Player p = e.getPlayer();
 
-		e.setCancelled(true);
 		Material material = e.getItem().getItemStack().getType();
 		ItemStack item = e.getItem().getItemStack();
 
 		User user = plugin.getUser(p);
 		if (user == null) return;
+
+		e.setCancelled(true);
 
 		if (!user.getMaterials().contains(material)) e.setCancelled(false);
 		if(plugin.getConfig().getBoolean("ignore_custom_items", true)

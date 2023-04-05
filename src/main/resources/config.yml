@@ -2,12 +2,9 @@
 ignore_custom_items: true
 
 text:
-  back: "&cBack"
-  back-lore: "&7Click to go to the next page"
-  next: "&2Next Page"
-  next-lore: "&7Click to go to the previous page"
-  previous: "&cPrevious Page"
-  previous-lore: "&7Click to go to the previous page"
+  material-enabled: "&a%item% has been enabled!"
+  material-disabled: "&a%item% has been disabled!"
+  material-reset: "&6Item filter reset!"
   item-enabled: "&a%item%"
   item-disabled: "&c%item%"
   item-enabled-lore: "&a&lWILL &7be picked up"
@@ -39,7 +36,6 @@ categoriesGUI:
         - IRON_INGOT
         - GOLD_INGOT
         - REDSTONE
-        - LAPIS_LAZULI
         - DIAMOND
         - EMERALD
         - FLINT
@@ -53,9 +49,6 @@ categoriesGUI:
         - EMERALD_BLOCK
         - OBSIDIAN
         - DIRT
-        - GRANITE
-        - ANDESITE
-        - DIORITE
         - SAND
         - SANDSTONE
     PvP:
@@ -70,25 +63,25 @@ categoriesGUI:
         - IRON_LEGGINGS
         - IRON_BOOTS
         - IRON_SWORD
-        - IRON_SHOVEL
+        - IRON_SPADE
         - IRON_PICKAXE
         - IRON_AXE
         - IRON_HOE
-        - GOLDEN_HELMET
-        - GOLDEN_CHESTPLATE
-        - GOLDEN_LEGGINGS
-        - GOLDEN_BOOTS
-        - GOLDEN_SWORD
-        - GOLDEN_SHOVEL
-        - GOLDEN_PICKAXE
-        - GOLDEN_AXE
-        - GOLDEN_HOE
+        - GOLD_HELMET
+        - GOLD_CHESTPLATE
+        - GOLD_LEGGINGS
+        - GOLD_BOOTS
+        - GOLD_SWORD
+        - GOLD_SPADE
+        - GOLD_PICKAXE
+        - GOLD_AXE
+        - GOLD_HOE
         - DIAMOND_HELMET
         - DIAMOND_CHESTPLATE
         - DIAMOND_LEGGINGS
         - DIAMOND_BOOTS
         - DIAMOND_SWORD
-        - DIAMOND_SHOVEL
+        - DIAMOND_SPADE
         - DIAMOND_PICKAXE
         - DIAMOND_AXE
         - DIAMOND_HOE
@@ -96,20 +89,16 @@ categoriesGUI:
         - LEATHER_CHESTPLATE
         - LEATHER_LEGGINGS
         - LEATHER_BOOTS
-        - WOODEN_SWORD
-        - WOODEN_SHOVEL
-        - WOODEN_PICKAXE
-        - WOODEN_AXE
-        - WOODEN_HOE
-        - TRIDENT
+        - WOOD_SWORD
+        - WOOD_SPADE
+        - WOOD_PICKAXE
+        - WOOD_AXE
+        - WOOD_HOE
         - BOW
-        - CROSSBOW
         - ARROW
-        - SHIELD
-        - ENCHANTED_GOLDEN_APPLE
         - GOLDEN_APPLE
         - COOKED_BEEF
-        - MUSHROOM_STEW
+        - MUSHROOM_SOUP
     Herbalism:
       enabled: true
       material: DIAMOND_HOE
@@ -119,49 +108,23 @@ categoriesGUI:
       items:
         - CARROT
         - POTATO
-        - WHEAT_SEEDS
+        - SEEDS
         - PUMPKIN_SEEDS
         - MELON_SEEDS
-        - BEETROOT_SEEDS
         - RED_MUSHROOM
         - BROWN_MUSHROOM
-        - BAMBOO
-        - SWEET_BERRIES
         - POISONOUS_POTATO
         - WHEAT
         - PUMPKIN
-        - MELON_SLICE
-        - BEETROOT
+        - MELON
         - CACTUS
         - VINE
         - GRASS
-        - OAK_SAPLING
-        - SPRUCE_SAPLING
+        - SAPLING
         - HAY_BLOCK
-        - BIRCH_SAPLING
-        - JUNGLE_SAPLING
-        - OAK_SAPLING
-        - ACACIA_SAPLING
-        - DARK_OAK_SAPLING
-        - DANDELION
-        - POPPY
-        - BLUE_ORCHID
-        - ALLIUM
-        - AZURE_BLUET
-        - RED_TULIP
-        - ORANGE_TULIP
-        - WHITE_TULIP
-        - PINK_TULIP
-        - OXEYE_DAISY
-        - CORNFLOWER
-        - LILY_OF_THE_VALLEY
-        - SUNFLOWER
-        - LILAC
-        - ROSE_BUSH
-        - PEONY
-        - TALL_GRASS
-        - WITHER_ROSE
-        - LILY_PAD
+        - YELLOW_FLOWER
+        - RED_ROSE
+        - WATER_LILY
     Drops:
       enabled: true
       material: BONE
@@ -172,7 +135,7 @@ categoriesGUI:
         - BONE
         - ARROW
         - STRING
-        - GUNPOWDER
+        - SULPHUR
         - ROTTEN_FLESH
         - ENDER_PEARL
         - BLAZE_ROD
@@ -183,20 +146,14 @@ categoriesGUI:
         - PRISMARINE_SHARD
         - SLIME_BALL
         - LEATHER
-        - BAMBOO
         - FEATHER
         - MUTTON
         - RABBIT
-        - CHICKEN
-        - PORKCHOP
-        - SALMON
-        - BEEF
-        - COD
-        - PUFFERFISH
-        - INK_SAC
-        - TROPICAL_FISH
+        - RAW_CHICKEN
+        - PORK
+        - RAW_BEEF
+        - INK_SACK
         - IRON_INGOT
-        - POPPY
-        - SNOWBALL
+        - SNOW_BALL
         - PRISMARINE_CRYSTALS
         - EGG

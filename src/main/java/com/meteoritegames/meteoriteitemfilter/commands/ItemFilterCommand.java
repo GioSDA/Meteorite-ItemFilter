@@ -1,19 +1,20 @@
 package com.meteoritegames.meteoriteitemfilter.commands;
 
 import com.meteoritegames.meteoriteitemfilter.Main;
+import com.meteoritegames.meteoriteitemfilter.objects.Category;
 import com.meteoritegames.meteoriteitemfilter.objects.User;
 import com.meteoritepvp.api.command.Command;
 import com.meteoritepvp.api.command.CommandClass;
 import com.meteoritepvp.api.command.DefaultCommand;
 import com.meteoritepvp.api.inventory.MeteoriteInventory;
 import com.meteoritepvp.api.inventory.presets.BasicInventory;
-import com.meteoritepvp.api.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @DefaultCommand
 public class ItemFilterCommand implements CommandClass {
@@ -74,7 +75,7 @@ public class ItemFilterCommand implements CommandClass {
 		user.setEnabled(!user.isEnabled()); //Reverse toggle
 	}
 
-	@Command(args="reset",
+	@Command(args="default",
 			description="Reset your item filter")
 	public void resetFilter(Player player) {
 		User user = plugin.getUser(player);
@@ -92,17 +93,63 @@ public class ItemFilterCommand implements CommandClass {
 	private void categoriesGUI(User user) {
 		int height = plugin.getConfig().getInt("categoriesGUI.size");
 
-		MeteoriteInventory inventory = new MeteoriteInventory(plugin, plugin.getText("categories-title"), 9,height+1, true);
-		BasicInventory page = new BasicInventory(9,height+1);
+		MeteoriteInventory inventory = new MeteoriteInventory(plugin, plugin.getText("categories-title"), 9,height, true);
+		BasicInventory page = new BasicInventory(6,height);
 		page.fill(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7));
 
-		ItemStack back = buildItem(new ItemStack(Material.WOOD_DOOR), plugin.getText());
-		page.setItem(0, height, back);
+		for (Category category : plugin.categories) {
+			ItemStack categoryItem = buildItem(new ItemStack(category.getMaterial()), category.getName());
+			page.setItem(category.getSlot(), categoryItem);
+		}
 
+		page.setOnSlotClickListener(e -> {
+			for (Category category : plugin.categories) {
+				if (e.getSlot() == category.getSlot()) {
+					filterGUI(category, user);
+					break;
+				}
+			}
+		});
 
+		inventory.setPage(page);
+		inventory.show(user.getPlayer());
 	}
 
-	private ItemStack buildItem(ItemStack item, String title, ArrayList<String> lore) {
+	private void filterGUI(Category category, User user) {
+		int height = category.getSize();
+
+		MeteoriteInventory inventory = new MeteoriteInventory(plugin, category.getTitle(), 9, height, true);
+		BasicInventory page = new BasicInventory(6, height);
+		page.fill(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7));
+
+		for (int i = 0; i < category.getItems().size(); i++) {
+			Material material = category.getItems().get(i);
+			boolean materialEnabled = !user.getMaterials().contains(material);
+
+			ItemStack materialItem;
+			if (materialEnabled) materialItem = buildItem(new ItemStack(material), plugin.getText("item-enabled").replace("%item%", new ItemStack(material).getItemMeta().getDisplayName()), Collections.singletonList(plugin.getText("item-enabled-lore")));
+			else materialItem = buildItem(new ItemStack(material), plugin.getText("item-disabled").replace("%item%", new ItemStack(material).getItemMeta().getDisplayName()), Collections.singletonList(plugin.getText("item-disabled-lore")));
+
+			page.setItem(i, materialItem);
+		}
+
+		page.setOnSlotClickListener(e -> {
+			user.toggleMaterial(category.getItems().get(e.getSlot()));
+		});
+
+		inventory.setPage(page);
+		inventory.show(user.getPlayer());
+	}
+
+	private ItemStack buildItem(ItemStack item, String title) {
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(title);
+		item.setItemMeta(meta);
+
+		return item;
+	}
+
+	private ItemStack buildItem(ItemStack item, String title, List<String> lore) {
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(title);
 		meta.setLore(lore);
