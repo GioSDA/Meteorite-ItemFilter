@@ -3,8 +3,10 @@ ignore_custom_items: true
 
 text:
   material-enabled: "&a%item% has been enabled!"
-  material-disabled: "&a%item% has been disabled!"
+  material-disabled: "&c%item% has been disabled!"
   material-reset: "&6Item filter reset!"
+  filter-enabled: "&6Item filter turned on!"
+  filter-disabled: "&6Item filter turned off!"
   item-enabled: "&a%item%"
   item-disabled: "&c%item%"
   item-enabled-lore: "&a&lWILL &7be picked up"
@@ -20,7 +22,7 @@ categoriesGUI:
       size: 6 # Size in rows (1-6) (default 6)
       material: DIAMOND_PICKAXE
       name: "&6Mining"
-      slot: 2
+      slot: 3
       title: Mining Item Filter
       items:
         - COAL_ORE
@@ -55,7 +57,7 @@ categoriesGUI:
       enabled: true
       material: DIAMOND_CHESTPLATE
       name: "&6Pvp"
-      slot: 3
+      slot: 4
       title: Pvp Item Filter
       items:
         - IRON_HELMET
@@ -103,7 +105,7 @@ categoriesGUI:
       enabled: true
       material: DIAMOND_HOE
       name: "&6Herbalism"
-      slot: 4
+      slot: 5
       title: Herbalism Item Filter
       items:
         - CARROT

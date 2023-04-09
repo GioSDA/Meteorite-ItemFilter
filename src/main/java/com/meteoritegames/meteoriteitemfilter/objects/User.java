@@ -1,52 +1,38 @@
 package com.meteoritegames.meteoriteitemfilter.objects;
 
-import com.meteoritegames.meteoriteitemfilter.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class User {
-	Main plugin;
-	private final Player player;
+	private final UUID uuid;
 	private Set<Material> materials;
-	private boolean isEnabled;
+	private boolean filterEnabled;
 
-	public User(Main plugin, final Player player, Set<Material> materials) {
-		this.plugin = plugin;
-		this.player = player;
-		this.isEnabled = false;
+	public User(final UUID uuid, Set<Material> materials) {
+		this.uuid = uuid;
+		this.filterEnabled = false;
 		this.materials = materials;
 	}
 
-	public void toggleMaterial(Material material) {
-		if (materials.contains(material)) {
-			player.sendMessage(plugin.getText("material-enabled").replace("%item%", material.name()));
-			removeMaterial(material);
-		} else {
-			player.sendMessage(plugin.getText("material-disabled").replace("%item%", material.name()));
-			addMaterial(material);
-		}
-	}
-
 	public void addMaterial(Material material) {
-		player.sendMessage(plugin.getText("material-disabled").replace("%item%", material.name()));
 		materials.add(material);
 	}
 
 	public void removeMaterial(Material material) {
-		player.sendMessage(plugin.getText("material-enabled").replace("%item%", material.name()));
 		materials.remove(material);
 	}
 
 	public void resetMaterials() {
-		player.sendMessage(plugin.getText("materials-reset"));
 		materials = new HashSet<>();
 	}
 
 	public Player getPlayer() {
-		return player;
+		return Bukkit.getPlayer(uuid);
 	}
 
 	public Set<Material> getMaterials() {
@@ -57,11 +43,11 @@ public class User {
 		this.materials = materials;
 	}
 
-	public boolean isEnabled() {
-		return isEnabled;
+	public boolean isFilterEnabled() {
+		return filterEnabled;
 	}
 
-	public void setEnabled(boolean enabled) {
-		isEnabled = enabled;
+	public void setFilterEnabled(boolean filterEnabled) {
+		this.filterEnabled = filterEnabled;
 	}
 }

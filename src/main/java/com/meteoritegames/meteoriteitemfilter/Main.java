@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meteoritegames.meteoriteitemfilter.commands.ItemFilterCommand;
 import com.meteoritegames.meteoriteitemfilter.listeners.ItemPickupListener;
+import com.meteoritegames.meteoriteitemfilter.listeners.PlayerJoinListener;
 import com.meteoritegames.meteoriteitemfilter.objects.Category;
 import com.meteoritegames.meteoriteitemfilter.objects.User;
 import com.meteoritepvp.api.MeteoritePlugin;
@@ -25,7 +26,7 @@ public class Main extends MeteoritePlugin {
 		saveDefaultConfig();
 
 		try {
-			loadUsers("userData.json");
+			loadUsers("plugins/Filter/userFilters.json");
 		} catch (Exception e) {
 			printError("There was an error loading user data!");
 			e.printStackTrace();
@@ -33,17 +34,19 @@ public class Main extends MeteoritePlugin {
 
 		initText();
 		initCategories();
+
 		registerCommandObject(new ItemFilterCommand(this));
 
 		registerEventListener(new ItemPickupListener(this));
+		registerEventListener(new PlayerJoinListener(this));
 	}
 
 	@Override
 	public void onDisable() {
 		try {
-			saveUsers("userData.json");
+			saveUsers("plugins/Filter/userFilters.json");
 		} catch (IOException e) {
-			printError("There was an error loading user data!");
+			printError("There was an error saving user data!");
 			e.printStackTrace();
 		}
 	}
@@ -56,6 +59,7 @@ public class Main extends MeteoritePlugin {
 			if (!getConfig().getBoolean(current + "enabled")) continue;
 
 			int size = getConfig().getInt(current + "size");
+			if (size == 0) size = 6;
 			Material material = Material.valueOf(getConfig().getString(current + "material"));
 			String name = getConfig().getString(current + "name");
 			int slot = getConfig().getInt(current + "slot");
@@ -79,17 +83,21 @@ public class Main extends MeteoritePlugin {
 
 	private void saveUsers(String fileS) throws IOException {
 		File file = new File(fileS);
+		if (!file.exists()) file.createNewFile();
 
 		FileWriter fileWriter = new FileWriter(file);
 
 		Gson gson = new Gson();
 		fileWriter.write(gson.toJson(users));
+
+		fileWriter.close();
 	}
 
-	private void loadUsers(String fileS) throws FileNotFoundException {
+	private void loadUsers(String fileS) throws IOException {
 		File file = new File(fileS);
 
 		if (!file.exists()) {
+			file.createNewFile();
 			users = new HashSet<>();
 			return;
 		}
@@ -98,6 +106,8 @@ public class Main extends MeteoritePlugin {
 
 		Type setType = new TypeToken<HashSet<User>>(){}.getType();
 		users = new Gson().fromJson(fileReader, setType);
+
+		if (users == null) users = new HashSet<>();
 	}
 
 	public User getUser(Player player) {
@@ -106,6 +116,11 @@ public class Main extends MeteoritePlugin {
 		}
 
 		return null;
+	}
+
+
+	public void addUser(Player player) {
+		users.add(new User(player.getUniqueId(), new HashSet<>()));
 	}
 
 	public String getText(String id) {

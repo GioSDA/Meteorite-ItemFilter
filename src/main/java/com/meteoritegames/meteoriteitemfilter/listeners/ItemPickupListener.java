@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class ItemPickupListener implements Listener {
-	Main plugin;
+	private final Main plugin;
 
 	public ItemPickupListener(Main plugin) {
 		this.plugin = plugin;
@@ -25,6 +25,7 @@ public class ItemPickupListener implements Listener {
 
 		User user = plugin.getUser(p);
 		if (user == null) return;
+		if (!user.isFilterEnabled()) return;
 
 		e.setCancelled(true);
 
