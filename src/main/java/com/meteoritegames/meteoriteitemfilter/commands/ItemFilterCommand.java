@@ -5,7 +5,6 @@ import com.meteoritegames.meteoriteitemfilter.objects.Category;
 import com.meteoritegames.meteoriteitemfilter.objects.User;
 import com.meteoritepvp.api.command.Command;
 import com.meteoritepvp.api.command.CommandClass;
-import com.meteoritepvp.api.command.DefaultCommand;
 import com.meteoritepvp.api.inventory.MeteoriteInventory;
 import com.meteoritepvp.api.inventory.presets.BasicInventory;
 import org.bukkit.Material;
@@ -15,10 +14,10 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@DefaultCommand
 public class ItemFilterCommand implements CommandClass {
 	private final Main plugin;
 
@@ -26,7 +25,9 @@ public class ItemFilterCommand implements CommandClass {
 		this.plugin = plugin;
 	}
 
-	@Command(args="add",
+	@Command(name="itemfilter",
+			aliases={"ft"},
+			args="add",
 			description="Add a material to the item filter.",
 			params="@material")
 	public void addMaterial(Player player, String[] params) {
@@ -43,7 +44,9 @@ public class ItemFilterCommand implements CommandClass {
 		user.addMaterial(material);
 	}
 
-	@Command(args="remove",
+	@Command(name="itemfilter",
+			aliases={"ft"},
+			args="remove",
 			description="Add a material from the item filter.",
 			params="@material")
 	public void removeMaterial(Player player, String[] params) {
@@ -60,7 +63,9 @@ public class ItemFilterCommand implements CommandClass {
 		user.removeMaterial(material);
 	}
 
-	@Command(args="toggle",
+	@Command(name="itemfilter",
+			aliases={"ft"},
+			args="toggle",
 			description="Toggle your item filter on or off")
 	public void toggleFilter(Player player) {
 		User user = plugin.getUser(player);
@@ -73,7 +78,9 @@ public class ItemFilterCommand implements CommandClass {
 		}
 	}
 
-	@Command(args="reset",
+	@Command(name="itemfilter",
+			aliases={"ft"},
+			args="reset",
 			description="Reset your item filter")
 	public void resetFilter(Player player) {
 		player.sendMessage(plugin.getText("material-reset"));
@@ -82,13 +89,25 @@ public class ItemFilterCommand implements CommandClass {
 		user.resetMaterials();
 	}
 
-	@Command(description="Get the filter GUI.")
+	@Command(name="itemfilter",
+			aliases={"ft"},
+			args="help",
+			description="Filter help menu")
+	public void filterHelp(Player player) {
+		player.sendMessage(plugin.getText("help"));
+	}
+
+	@Command(name="itemfilter",
+			aliases={"ft"},
+			description="Get the filter GUI.")
 	public void filter(Player player) {
 		User user = plugin.getUser(player);
 		categoriesGUI(user);
 	}
 
-	@Command(args="menu",
+	@Command(name="itemfilter",
+			aliases={"ft"},
+			args="menu",
 			description="Get the filter GUI.")
 	public void filterMenu(Player player) {
 		User user = plugin.getUser(player);
@@ -126,11 +145,11 @@ public class ItemFilterCommand implements CommandClass {
 
 	private void filterGUI(Category category, User user) {
 		int height = category.getSize();
-		System.out.println(height);
 
 		MeteoriteInventory inventory = new MeteoriteInventory(plugin, category.getTitle().replaceAll("&", "§"), 9, height, true);
 		BasicInventory page = new BasicInventory(9, height);
 		page.fill(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7));
+
 
 		for (int i = 0; i < category.getItems().size(); i++) {
 			Material material = category.getItems().get(i);

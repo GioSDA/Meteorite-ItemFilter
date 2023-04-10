@@ -1,7 +1,20 @@
 #Ignore items that are named, have lore or are enchanted
 ignore_custom_items: true
+data-file: "plugins/ItemFilter/userFilters.json"
 
 text:
+  help:
+    - "&e&l&nItem Filter Commands&r"
+    - "&e/ft"
+    - "&7Access the filter GUI."
+    - "&e/ft toggle"
+    - "&7Enable or disable your item filter."
+    - "&e/ft add <Item>e"
+    - "&7Add an item to your item filter."
+    - "&e/ft remove <Item>"
+    - "&7Remove an item to your item filter."
+    - "&e/ft reset"
+    - "&7Reset your filter back to default."
   material-enabled: "&a%item% has been enabled!"
   material-disabled: "&c%item% has been disabled!"
   material-reset: "&6Item filter reset!"
@@ -108,8 +121,8 @@ categoriesGUI:
       slot: 5
       title: Herbalism Item Filter
       items:
-        - CARROT
-        - POTATO
+        - CARROT_ITEM
+        - POTATO_ITEM
         - SEEDS
         - PUMPKIN_SEEDS
         - MELON_SEEDS

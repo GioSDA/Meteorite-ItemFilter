@@ -26,7 +26,7 @@ public class Main extends MeteoritePlugin {
 		saveDefaultConfig();
 
 		try {
-			loadUsers("plugins/Filter/userFilters.json");
+			loadUsers(getConfig().getString("data-file"));
 		} catch (Exception e) {
 			printError("There was an error loading user data!");
 			e.printStackTrace();
@@ -44,7 +44,7 @@ public class Main extends MeteoritePlugin {
 	@Override
 	public void onDisable() {
 		try {
-			saveUsers("plugins/Filter/userFilters.json");
+			saveUsers(getConfig().getString("data-file"));
 		} catch (IOException e) {
 			printError("There was an error saving user data!");
 			e.printStackTrace();
@@ -77,7 +77,18 @@ public class Main extends MeteoritePlugin {
 		text.clear();
 
 		for (String key : getConfig().getConfigurationSection("text").getKeys(false)) {
-			text.put(key, getConfig().getString("text." + key).replaceAll("&", "§"));
+			if (key.equals("help")) {
+				StringBuilder sText = new StringBuilder();
+
+				for (String line : (ArrayList<String>) getConfig().getList("text." + key)) {
+					line = line.replaceAll("&", "§");
+					sText.append(line).append("\n");
+				}
+
+				text.put(key, sText.toString());
+			} else {
+				text.put(key, getConfig().getString("text." + key).replaceAll("&", "§"));
+			}
 		}
 	}
 
