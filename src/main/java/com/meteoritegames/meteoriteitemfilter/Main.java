@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 public class Main extends MeteoritePlugin {
-	private static Set<User> users;
+	private static Set<User> users = new HashSet<>();
 	public HashMap<String, String> text = new HashMap<>();
 	public Set<Category> categories = new HashSet<>();
 
@@ -122,6 +122,11 @@ public class Main extends MeteoritePlugin {
 	}
 
 	public User getUser(Player player) {
+		for (User user : users) {
+			if (user.getPlayer() == player) return user;
+		}
+
+		addUser(player);
 		for (User user : users) {
 			if (user.getPlayer() == player) return user;
 		}
